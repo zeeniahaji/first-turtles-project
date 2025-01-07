@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: uk.ac.kcl.inf.mdd1.turtles.tests
+Bundle-ManifestVersion: 2
+Bundle-Name: uk.ac.kcl.inf.mdd1.turtles.tests
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: uk.ac.kcl.inf.mdd1.turtles.tests; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: uk.ac.kcl.inf.mdd1.turtles,
+ org.eclipse.xtext.testing,
+ org.eclipse.xtext.xbase.testing,
+ org.eclipse.xtext.xbase.lib,
+ uk.ac.kcl.inf.mdd1.turtles.ui;bundle-version="1.0.0",
+ org.eclipse.xpect.xtext.lib
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: uk.ac.kcl.inf.mdd1.tests.mixed,
+ uk.ac.kcl.inf.mdd1.tests.move,
+ uk.ac.kcl.inf.mdd1.tests.turn

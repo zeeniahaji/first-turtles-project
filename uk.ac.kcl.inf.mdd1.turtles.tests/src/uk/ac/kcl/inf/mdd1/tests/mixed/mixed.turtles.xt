@@ -1,0 +1,5 @@
+/* XPECT_SETUP uk.ac.kcl.inf.mdd1.tests.mixed.MixedTest  END_SETUP */
+turn right by 1 degrees
+forward(10)
+forward(10)
+turn left by 360 degrees

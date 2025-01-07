@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "MoveTest",
+      "setup": "",
+      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MoveTest verify ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "Turn Test",
+      "setup": "",
+      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=TurnTest verify ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    },
+    {
+      "name": "Mixed Test",
+      "setup": "",
+      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MixedTest verify ",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 10
+    }
+  ]
+}

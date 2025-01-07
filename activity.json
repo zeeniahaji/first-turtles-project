@@ -1,0 +1,82 @@
+{
+    "activities": [
+        {
+            "id": "edit-grammar",
+            "title": "Create the Xtext grammar",
+            "icon": "xtext",
+            
+            "tools": [ "https://ep.mde-network.org/tools/xtext/xtext_tool.json" ],
+
+            "panels": [
+                {
+                    "id": "panel-xtext",
+                    "name": "Grammar",
+                    "ref": "xtext-grammar",
+                    "file": "uk.ac.kcl.inf.mdd1.turtles/src/uk/ac/kcl/inf/mdd1/Turtles.xtext",
+                    "editorPanel": "panel-turtles",
+                    "editorActivity": "turtles-editor"
+                },
+                {
+                    "id": "panel-console",
+                    "name": "Console",
+                    "ref": "console"
+                }
+            ],
+
+            "layout": {
+                "area": [["panel-xtext"],
+                         ["panel-console"]]
+            },
+
+            "actions": [
+                {
+                    "source": "panel-xtext",
+                    "sourceButton": "action-button",
+
+                    "parameters": {
+                        "languageName": "uk.ac.kcl.inf.mdd1.Turtles",
+                        "baseName": "uk.ac.kcl.inf.mdd1",
+                        "extension": "turtles",
+                        "grammar": "panel-xtext"
+                    },
+
+                    "output": "panel-console"
+                }
+            ]
+        },
+
+        {
+            "id": "turtles-editor",
+            "title": "Test your generated editor",
+            "icon": "xtext",
+
+            "tools": [
+                "{{ID-panel-turtles}}/editor_tool.json", 
+                "https://ep.mde-network.org/tools/emf/emf_tool.json",
+                "https://ep.mde-network.org/tools/emfatic/emfatic_tool.json",
+                "https://ep.mde-network.org/tools/epsilon/tools"
+            ],
+
+            "panels": [
+                {
+                    "id": "panel-turtles",
+                    "name": "Editor",
+                    "ref": "xtext-editor",
+                    "file": "example/test.turtles",
+                    "extension": "turtles",
+                    "buttons": []
+                },
+                {
+                    "id": "panel-console",
+                    "name": "Console",
+                    "ref": "console"
+                }
+            ],
+
+            "layout": {"area": [["panel-turtles"],
+                                ["panel-console"]]},
+
+            "actions": []
+        }
+    ]
+}
