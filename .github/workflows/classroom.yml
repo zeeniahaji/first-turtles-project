@@ -69,10 +69,10 @@ jobs:
         if [ ! -f "uk.ac.kcl.inf.mdd1.turtles/model/generated/Turtles.ecore" ]; then echo "❌ Turtles.ecore file not found"; exit 1; fi
         if [ ! -f "uk.ac.kcl.inf.mdd1.turtles/model/generated/Student.ecore" ]; then echo "❌ Student.ecore file not found"; exit 1; fi
 
-    - name: Copy Grader JAR
-      run: |
-        cp ./grader/grader.jar ./  # Copy grader.jar from repo to the workspace
+    # - name: Copy Grader JAR
+    #   run: |
+    #     cp grader/grader.jar ./  
     
     - name: Run Grader
       run: |
-        java -jar grader.jar -s uk.ac.kcl.inf.mdd1.turtles/model/generated/Turtles.ecore -a uk.ac.kcl.inf.mdd1.turtles/model/generated/Student.ecore
+        java -jar grader/grader.jar -s uk.ac.kcl.inf.mdd1.turtles/model/generated/Turtles.ecore -a uk.ac.kcl.inf.mdd1.turtles/model/generated/Student.ecore
