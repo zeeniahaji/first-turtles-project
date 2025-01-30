@@ -2,3 +2,30 @@ grammar uk.ac.kcl.inf.mdd1.Turtles with org.eclipse.xtext.common.Terminals
 
 generate turtles "http://www.ac.uk/kcl/inf/mdd1/Turtles"
 
+TurtleProgram: 
+      statements += Statement+
+;
+
+Statement: 
+         Forward | Backward | Turn
+;
+
+Forward: 
+        'forward (' num = NumberLiteral ')'
+;
+
+Backward: 
+        'backward (' num = NumberLiteral ')'
+;
+
+Turn: 
+        'turn' dir = Direction 'by' num = NumberLiteral 'degrees'
+;
+
+NumberLiteral: 
+         INT
+; 
+
+Direction: 
+         'left' | 'right'
+;
