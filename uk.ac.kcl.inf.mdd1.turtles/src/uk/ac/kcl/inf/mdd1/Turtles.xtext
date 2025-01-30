@@ -7,25 +7,21 @@ TurtleProgram:
 ;
 
 Statement: 
-        Forward | Backward | Turn
+        Move | Turn
 ;
 
-Forward: 
-        'forward (' num = NumberLiteral ')'
+Move: 
+        dir = Direction '(' num = INT ')'
 ;
 
-Backward: 
-        'backward (' num = NumberLiteral ')'
+enum Direction: 
+        forward | backward
 ;
 
 Turn: 
-        'turn' dir = Direction 'by' num = NumberLiteral 'degrees'
+       'turn' d = Com 'by' num = INT 'degrees'
 ;
 
-NumberLiteral: 
-         INT
-; 
-
-Direction: 
-         'left' | 'right'
+enum Com: 
+       left | right
 ;
