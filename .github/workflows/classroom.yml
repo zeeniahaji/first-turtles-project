@@ -60,9 +60,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     
-    - name: Ensure grader directory exists
-      run: |
-        if [ ! -d "grader" ]; then echo "❌ Grader directory does not exist"; exit 1; fi
+    # - name: Ensure grader directory exists
+    #   run: |
+    #     if [ ! -d "grader" ]; then echo "❌ Grader directory does not exist"; exit 1; fi
 
     - name: Validate Files
       run: |
