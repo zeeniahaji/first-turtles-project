@@ -3,11 +3,11 @@ grammar uk.ac.kcl.inf.mdd1.Turtles with org.eclipse.xtext.common.Terminals
 generate turtles "http://www.ac.uk/kcl/inf/mdd1/Turtles"
 
 TurtleProgram: 
-      statements += Statement+
+       statements += Statement+
 ;
 
 Statement: 
-         Forward | Backward | Turn
+        Forward | Backward | Turn
 ;
 
 Forward: 
