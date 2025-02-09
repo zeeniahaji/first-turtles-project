@@ -7,7 +7,7 @@ TurtleProgram:
 ;
 
 Statement: 
-    forwardCommand | backwardCommand | turnCommand
+    forwardCommand | backwardCommand | turnCommand | loopCommand
 ;
 
 forwardCommand: 
@@ -24,4 +24,10 @@ turnCommand:
 
 direction: 
     'left' | 'right'
+;
+
+loopCommand: 
+    num=INT 'times' 'do' 
+         Statements += Statement*
+    'end'
 ;
