@@ -7,19 +7,27 @@ TurtleProgram:
 ;
 
 Statement: 
-    forwardCommand | backwardCommand | turnCommand | loopCommand
+    forwardCommand | backwardCommand | turnCommand | loopCommand | variableCommand
+;
+
+variableCommand:
+    'var' name=ID '=' num=INT
+;
+
+numberValue:
+    num=INT | var=[variableCommand]
 ;
 
 forwardCommand: 
-    'forward' '('num = INT')'
+    'forward' '('num=numberValue')'
 ;
 
 backwardCommand: 
-    'backward' '('num = INT')'
+    'backward' '('num=numberValue')'
 ;
 
 turnCommand: 
-    'turn' dir = direction 'by' num=INT 'degrees'
+    'turn' dir = direction 'by' num=numberValue 'degrees'
 ;
 
 direction: 
@@ -27,7 +35,7 @@ direction:
 ;
 
 loopCommand: 
-    num=INT 'times' 'do' 
+    num=numberValue 'times' 'do' 
          Statements += Statement*
     'end'
 ;
