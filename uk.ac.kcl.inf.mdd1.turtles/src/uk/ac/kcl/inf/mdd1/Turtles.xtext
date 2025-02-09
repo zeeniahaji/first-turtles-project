@@ -3,25 +3,25 @@ grammar uk.ac.kcl.inf.mdd1.Turtles with org.eclipse.xtext.common.Terminals
 generate turtles "http://www.ac.uk/kcl/inf/mdd1/Turtles"
 
 TurtleProgram: 
-       statements += Statement*
+    Statements += Statement
 ;
 
 Statement: 
-        Move | Turn
+    forwardCommand | backwardCommand | turnCommand
 ;
 
-Move: 
-        dir = Direction '(' num = INT ')'
+forwardCommand: 
+    'forward' '('num = INT')'
 ;
 
-enum Direction: 
-        forward | backward
+backwardCommand: 
+    'backward' '('num = INT')'
 ;
 
-Turn: 
-       'turn' d = Com 'by' num = INT 'degrees'
+turnCommand: 
+    'turn' dir = direction 'by' num=INT 'degrees'
 ;
 
-enum Com: 
-       left | right
+direction: 
+    'left' | 'right'
 ;
