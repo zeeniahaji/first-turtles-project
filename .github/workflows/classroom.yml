@@ -34,7 +34,7 @@ jobs:
       run: mvn clean test  # This runs the tests and generates the surefire reports
 
     - name: Upload Test Logs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: surefire-reports
         path: target/surefire-reports/  # Uploads the surefire reports (test logs)
