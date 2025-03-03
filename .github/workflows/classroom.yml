@@ -29,6 +29,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v4
+    - uses: education/autograding@v1
 
     - name: Run Maven Tests
       run: mvn clean test  # This runs the tests and generates the surefire reports
