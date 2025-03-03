@@ -27,7 +27,7 @@ jobs:
       uses: actions/checkout@v4
     - uses: education/autograding@v1
     - name: Upload Test Logs
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: surefire-reports
         path: target/surefire-reports/
