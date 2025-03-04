@@ -3,7 +3,7 @@
     {
       "name": "MoveTest",
       "setup": "",
-      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MoveTest -X verify | tee test_output.log ",
+      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MoveTest verify ",
       "input": "",
       "output": "",
       "comparison": "included",
