@@ -56,7 +56,12 @@ jobs:
       uses: actions/checkout@v4
     - name: Make the parse script executable
       run: chmod +x scripts/parse_and_link_feedback.sh  # Makes your script executable
-    - uses: education/autograding@v1
+    - uses: education/autograding@v1  # Run autograder first
+
+    # 🔍 Debug Step: Check if log files exist
+    - name: Debug - List Files in Target Directory
+      run: ls -R target || echo "⚠️ Target directory not found"
+
     - name: Run the parse and link feedback script
       run: ./scripts/parse_and_link_feedback.sh  # Executes the script
     
