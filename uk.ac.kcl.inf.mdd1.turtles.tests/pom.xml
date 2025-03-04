@@ -10,33 +10,15 @@
 	<packaging>eclipse-test-plugin</packaging>
 
 	<build>
-    <plugins>
-        <!-- Surefire Plugin to improve test output -->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>3.0.0-M7</version>
-            <configuration>
-                <!-- Ensure test results go to a file -->
-                <redirectTestOutputToFile>true</redirectTestOutputToFile>
-                <!-- Print test summaries -->
-                <printSummary>true</printSummary>
-                <!-- Use plain text for easier parsing -->
-                <reportFormat>plain</reportFormat>
-                <systemOut>true</systemOut>
-                <systemErr>true</systemErr>
-                <!-- Add more detailed test information -->
-                <properties>
-                    <property>
-                        <name>listener</name>
-                        <value>org.apache.maven.surefire.report.ConsoleOutput</value>
-                    </property>
-                </properties>
-            </configuration>
-        </plugin>
-    </plugins>
-    </build>
-
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
+
+
 
