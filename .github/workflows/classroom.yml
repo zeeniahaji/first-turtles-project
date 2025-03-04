@@ -96,15 +96,35 @@ jobs:
     - name: Make the parse script executable
       run: chmod +x scripts/parse_and_link_feedback.sh  # Makes your script executable
 
-    # 🔨 Explicitly build the project to create the `target/` folder
+    # 🛠 Run the autograder first
+    - uses: education/autograding@v1  # Run autograder
+
+    # 🔍 Debug Step 1: Check all files
+    - name: Debug - List All Files in Repository
+      run: ls -R
+
+    # 🔍 Debug Step 2: Check common log file locations
+    - name: Debug - Check for Log Files
+      run: |
+        echo "Checking target directory..."
+        ls -R target || echo "⚠️ Target directory not found"
+        
+        echo "Checking autograding logs..."
+        ls -R autograding || echo "⚠️ No autograding logs found"
+        
+        echo "Checking default log locations..."
+        find . -type f -name "*.log"
+
+    # 🔨 Build the project (if necessary)
     - name: Build the project with Maven
       run: mvn clean package
 
-    - uses: education/autograding@v1  # Run autograder
-
-    # 🔍 Debug Step: Check if target directory exists
-    - name: Debug - List Files in Target Directory
-      run: ls -R target || echo "⚠️ Target directory not found"
-
+    # 🔍 Debug Step 3: Run the script only if the log file exists
     - name: Run the parse and link feedback script
-      run: ./scripts/parse_and_link_feedback.sh  # Executes the script
+      run: |
+        if [ -f target/log.txt ]; then
+          ./scripts/parse_and_link_feedback.sh
+        else
+          echo "❌ Log file not found. Skipping script execution."
+          exit 1
+        fi
