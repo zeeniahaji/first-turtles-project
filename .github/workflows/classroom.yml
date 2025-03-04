@@ -119,6 +119,10 @@ jobs:
     - name: Build the project with Maven
       run: mvn clean package
 
+    - name: Run Maven tests
+      run: mvn test
+
+
     # 🔍 Debug Step 3: Run the script only if the log file exists
     - name: Run the parse and link feedback script
       run: |
