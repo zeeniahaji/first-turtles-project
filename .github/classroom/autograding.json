@@ -5,7 +5,7 @@
       "setup": "",
       "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MoveTest verify ",
       "input": "",
-      "output": "",
+      "output": "HELLO____________________________________________________________________________________________________________________________",
       "comparison": "included",
       "timeout": 10,
       "points": 10
