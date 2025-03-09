@@ -104,23 +104,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Step 1: Run the autograder (this will generate feedback)
-      - name: Run Autograder
-        uses: education/autograding@v1
+      # Run the Autograder (This is the same as before)
+      - uses: education/autograding@v1
 
-      - name: List workspace files after autograder runs
+      # Debug: Check what files exist after the autograder
+      - name: Debug - List workspace files
         run: ls -R "$GITHUB_WORKSPACE"
 
-      # Step 2: Capture and save the autograder output to test_results.log
+      # Find the correct feedback file and store it in test_results.log
       - name: Capture Autograder Output
         run: |
-          # Save the autograder output into test_results.log
-          echo "Autograder output:" > test_results.log
-          cat "$GITHUB_WORKSPACE/feedback.json" >> test_results.log
+          if [ -f "$GITHUB_WORKSPACE/feedback.json" ]; then
+             echo "✅ feedback.json found!"
+             cat "$GITHUB_WORKSPACE/feedback.json" > test_results.log
+          elif [ -f "$GITHUB_WORKSPACE/autograding-results.json" ]; then
+             echo "✅ autograding-results.json found!"
+             cat "$GITHUB_WORKSPACE/autograding-results.json" > test_results.log
+          else
+             echo "❌ No feedback file found! Exiting."
+             exit 1
+          fi
 
-      # Step 3: Upload the test results log as an artifact
-      - name: Upload Test Results Log
+  # Upload Grader Output Logs
+      - name: Upload Grader Output Logs
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-log
+          name: grader-output-logs
           path: test_results.log
+
