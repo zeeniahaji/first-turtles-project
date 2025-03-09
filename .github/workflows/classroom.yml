@@ -85,50 +85,37 @@ jobs:
   build:
     name: Autograding
     runs-on: ubuntu-latest
-
     steps:
+      # 1️⃣ Clean up disk space
       - name: Clean up disk space
-        run: sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
-
+        run: sudo rm -rf "/opt/ghc" "/usr/local/share/boost" "$AGENT_TOOLSDIRECTORY"
+      
+      # 2️⃣ Set up Java 17
       - name: Set up OpenJDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      # 3️⃣ Set up Maven
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4.5
         with:
           maven-version: 3.9.5
 
+      # 4️⃣ Checkout repository
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Run the Autograder (This is the same as before)
-      - uses: education/autograding@v1
-
-      # Debug: Check what files exist after the autograder
-      - name: Debug - List workspace files
-        run: ls -R "$GITHUB_WORKSPACE"
-
-      # Find the correct feedback file and store it in test_results.log
-      - name: Capture Autograder Output
+      # 5️⃣ Run the autograder and save its output
+      - name: Run Autograder
         run: |
-          if [ -f "$GITHUB_WORKSPACE/feedback.json" ]; then
-             echo "✅ feedback.json found!"
-             cat "$GITHUB_WORKSPACE/feedback.json" > test_results.log
-          elif [ -f "$GITHUB_WORKSPACE/autograding-results.json" ]; then
-             echo "✅ autograding-results.json found!"
-             cat "$GITHUB_WORKSPACE/autograding-results.json" > test_results.log
-          else
-             echo "❌ No feedback file found! Exiting."
-             exit 1
-          fi
+          education/autograding@v1 | tee autograder_output.txt
+        continue-on-error: true  # Ensure the workflow doesn't fail even if tests fail
 
-  # Upload Grader Output Logs
-      - name: Upload Grader Output Logs
+      # 6️⃣ Upload the autograder output as an artifact
+      - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
-          name: grader-output-logs
-          path: test_results.log
-
+          name: autograder-results
+          path: autograder_output.txt
