@@ -34,9 +34,16 @@
 # Path to feedback-mapping.json (activity-to-file mapping)
 MAPPING_FILE="./feedback-mapping.json"
 ACTIVITY_JSON="./activity.json"  # Contains panel mappings to activities
+LOG_FILE="test_results.log"  # Name of the log file
 
 # Initialize an empty array for test mappings
 test_mappings=()
+
+# Check if the test log file exists
+if [ ! -f "$LOG_FILE" ]; then
+  echo "Error: $LOG_FILE not found. Please ensure that the test results log file is generated before running the script."
+  exit 1
+fi
 
 # Function to parse each line in the test log
 parse_log() {
@@ -60,7 +67,7 @@ parse_log() {
       test_mapping="{\"test\": \"$test_name\", \"status\": \"$test_status\", \"output\": \"$test_output\"}"
       test_mappings+=("$test_mapping")
     fi
-  done < "$1"
+  done < "$LOG_FILE"
 }
 
 # Function to extract the relevant output from the log line
@@ -96,8 +103,8 @@ get_panel_for_activity() {
 }
 
 # Main execution flow
-# Assuming the test log is generated in "test_results.log"
-parse_log "test_results.log"
+# Parse the log file if it exists
+parse_log "$LOG_FILE"
 
 # Generate the feedback-mapping.json file
 echo "[" > feedback-mapping.json
