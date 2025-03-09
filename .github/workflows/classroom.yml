@@ -108,17 +108,12 @@ jobs:
       - name: Run Autograder
         uses: education/autograding@v1
 
-      # Step 2: Parse the test output and save it to test_results.log
-      - name: Parse Test Output and Save to Log
+      # Step 2: Capture and save the autograder output to test_results.log
+      - name: Capture Autograder Output
         run: |
-          # Ensure the test results log file exists and is clean
-          touch test_results.log
-
-          # Custom command to run the autograder script if necessary (update with the correct path)
-          ./path-to-autograder/autograder.sh > test_results.log 2>&1 || echo "Autograder failed" >> test_results.log
-
-          # Optionally print out the log file to confirm the content
-          cat test_results.log
+          # Save the autograder output into test_results.log
+          echo "Autograder output:" > test_results.log
+          cat "$GITHUB_WORKSPACE/feedback.json" >> test_results.log
 
       # Step 3: Upload the test results log as an artifact
       - name: Upload Test Results Log
