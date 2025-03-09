@@ -116,7 +116,7 @@ jobs:
 
       # Step 4: Upload feedback mapping as artifact
       - name: Upload feedback mapping artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: feedback-mapping
           path: feedback-mapping.json
