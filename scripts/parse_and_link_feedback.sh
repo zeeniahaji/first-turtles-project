@@ -42,15 +42,19 @@ test_mappings=()
 parse_log() {
   while IFS= read -r line; do
     # Example: Check if line contains test result info (e.g., MoveTest)
+    echo "Processing line: $line"  # Debugging line
     if [[ $line =~ (MoveTest|Turn\ Test|Mixed\ Test)\ \[([A-Za-z]+)\] ]]; then
       test_name="${BASH_REMATCH[1]}"  # e.g., MoveTest
       test_status="${BASH_REMATCH[2]}"  # PASSED or FAILED
       test_output=$(extract_output "$line")  # Function to clean up the output
+      echo "Test found: $test_name, Status: $test_status"  # Debugging line
 
       # Get the file and panel associated with this activity
       activity="edit-grammar"  # Example, you may want to map based on some condition
       file_path=$(get_file_for_activity "$activity")
       panel=$(get_panel_for_activity "$activity")
+
+      echo "File: $file_path, Panel: $panel"  # Debugging line
 
       # Construct the test mapping (test -> file)
       test_mapping="{\"test\": \"$test_name\", \"status\": \"$test_status\", \"output\": \"$test_output\"}"
@@ -107,4 +111,3 @@ echo "]}" >> feedback-mapping.json
 echo "]" >> feedback-mapping.json
 
 echo "Feedback mapping generated successfully!"
-
