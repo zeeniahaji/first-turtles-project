@@ -108,6 +108,9 @@ jobs:
       - name: Run Autograder
         uses: education/autograding@v1
 
+      - name: List workspace files after autograder runs
+        run: ls -R "$GITHUB_WORKSPACE"
+
       # Step 2: Capture and save the autograder output to test_results.log
       - name: Capture Autograder Output
         run: |
