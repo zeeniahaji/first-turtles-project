@@ -104,19 +104,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Step 1: Run the autograder (this will generate feedback) and save the results to test_results.log file 
-      - name: Run Autograder and Save Output
+      # Step 1: Run the autograder (this will generate feedback)
+      - name: Run Autograder
         uses: education/autograding@v1
-        id: autograder
-        continue-on-error: true
+
+      # Step 2: Parse the test output and save it to test_results.log
+      - name: Parse Test Output and Save to Log
         run: |
-          # Run the autograder and redirect all output (both stdout and stderr) to a log file
-          ./path-to-autograder/autograder.sh > test_results.log 2>&1
-          
-          # Optional: Print the content of the log to check
+          # Ensure the test results log file exists and is clean
+          touch test_results.log
+
+          # Custom command to run the autograder script if necessary (update with the correct path)
+          ./path-to-autograder/autograder.sh > test_results.log 2>&1 || echo "Autograder failed" >> test_results.log
+
+          # Optionally print out the log file to confirm the content
           cat test_results.log
 
-      # Step 2: Upload the test results log as an artifact
+      # Step 3: Upload the test results log as an artifact
       - name: Upload Test Results Log
         uses: actions/upload-artifact@v3
         with:
