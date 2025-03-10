@@ -3,39 +3,29 @@ grammar uk.ac.kcl.inf.mdd1.Turtles with org.eclipse.xtext.common.Terminals
 generate turtles "http://www.ac.uk/kcl/inf/mdd1/Turtles"
 
 TurtleProgram: 
-    Statements += Statement*
-;
-
-Statement: 
-    forwardCommand | backwardCommand | turnCommand | loopCommand | variableCommand
-;
-
-variableCommand:
-    'var' name=ID '=' num=INT
-;
-
-numberValue:
-    num=INT | var=[variableCommand]
-;
-
-forwardCommand: 
-    'forward' '('num=numberValue')'
-;
-
-backwardCommand: 
-    'backward' '('num=numberValue')'
-;
-
-turnCommand: 
-    'turn' dir = direction 'by' num=numberValue 'degrees'
-;
-
-direction: 
-    'left' | 'right'
-;
-
-loopCommand: 
-    num=numberValue 'times' 'do' 
-         Statements += Statement*
-    'end'
-;
+       statements += Statement+
+ ;
+ 
+ Statement: 
+          Forward | Backward | Turn
+ ;
+ 
+ Forward: 
+         'forward (' num = NumberLiteral ')'
+ ;
+ 
+ Backward: 
+         'backward (' num = NumberLiteral ')'
+ ;
+ 
+ Turn: 
+         'turn' dir = Direction 'by' num = NumberLiteral 'degrees'
+ ;
+ 
+ NumberLiteral: 
+          INT
+ ; 
+ 
+ Direction: 
+          'left' | 'right'
+ ;
