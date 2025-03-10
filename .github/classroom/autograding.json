@@ -3,7 +3,7 @@
     {
       "name": "MoveTest",
       "setup": "",
-      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MoveTest verify ",
+      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MoveTest -DtrimStackTrace=true verify",
       "input": "",
       "output": "",
       "comparison": "included",
@@ -13,7 +13,7 @@
     {
       "name": "Turn Test",
       "setup": "",
-      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=TurnTest verify ",
+      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=TurnTest -DtrimStackTrace=true verify",
       "input": "",
       "output": "",
       "comparison": "included",
@@ -23,7 +23,7 @@
     {
       "name": "Mixed Test",
       "setup": "",
-      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MixedTest verify ",
+      "run": "mvn -q -B -DfailIfNoTests=false -Dtest=MixedTest -DtrimStackTrace=true verify",
       "input": "",
       "output": "",
       "comparison": "included",
@@ -32,3 +32,4 @@
     }
   ]
 }
+
