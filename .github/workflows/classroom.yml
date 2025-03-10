@@ -110,11 +110,12 @@ jobs:
     #     education/autograding@v1 > autograder_output.txt 2>&1 || true
     #     cat autograder_output.txt  # Show output in logs for debugging
 
-    # Run the autograder and capture output
-    - name: Run autograder
-      id: run-autograder
-      run: |
-        education-autograding --config autograding.json 2>&1 | tee autograding-log.txt
+    - name: Run autograding
+      id: autograding
+      uses: education/autograding@v1
+
+    - name: Save logs
+      run: echo "${{ steps.autograding.outputs }}" > autograding-log.txt
     
     # Display logs
     - name: Display autograding logs
