@@ -114,27 +114,13 @@ jobs:
       id: autograding
       uses: education/autograding@v1
 
-    - name: Save logs
-      run: |
-        { 
-          echo "=== Autograding Output Start ==="
-          echo "Running autograding..."
-          education/autograding@v1
-          echo "=== Autograding Output End ==="
-        } 2>&1 | tee autograder-output.txt
-    
     # Display logs
     - name: Display autograding logs
-      run: cat autograder-output.txt
-
-    - name: List files to identify log location
-      run: |
-        echo "Listing all files in the current directory"
-        ls -R /home/runner/work/first-turtles-language-zeeniahaji/first-turtles-language-zeeniahaji
+      run: cat autograder_output.txt
 
     # Upload the autograder output as an artifact
     - name: Upload autograder output
       uses: actions/upload-artifact@v4
       with:
         name: autograder-output
-        path: autograder-output.txt
+        path: autograder_output.txt
