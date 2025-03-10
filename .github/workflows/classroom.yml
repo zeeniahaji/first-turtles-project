@@ -115,11 +115,11 @@ jobs:
       uses: education/autograding@v1
 
     - name: Save logs
-      run: echo "${{ steps.autograding.outputs }}" > autograding-log.txt
+      run: echo "${{ steps.autograding.outputs }}" > autograder-output.txt
     
     # Display logs
     - name: Display autograding logs
-      run: cat autograding-log.txt
+      run: cat autograder-output.txt
 
     # Upload the autograder output as an artifact
     - name: Upload autograder output
