@@ -219,22 +219,20 @@ jobs:
     - name: Run Autograding
       id: autograding
       uses: education/autograding@v1
-      continue-on-error: true  # <-- This ensures the workflow continues even if tests fail
+      continue-on-error: true  # Allow workflow to continue even if tests fail
 
-    # Debug step to list files in the workspace and confirm the log file location
-    - name: List files to verify log file
+    # Debug step to list files in the workspace and find test reports
+    - name: List all files after Autograding
       run: |
         echo "Listing files in the workspace:"
         ls -alh
-        echo "Checking for autograding.log"
-        find . -name "autograding.log"
-      continue-on-error: true  # <-- Ensures this runs even if a previous step failed
+        echo "Checking for Maven test logs..."
+        find . -type f -name "*.txt" -o -name "*.log" -o -name "*.xml"
 
-    # Upload the logs from the autograding run as an artifact
-    - name: Upload Test Outputs as Artifact
-      uses: actions/upload-artifact@v4
+    # Upload Maven test reports (usually stored in target/surefire-reports/)
+    - name: Upload Test Reports
+      uses: actions/upload-artifact@v3
       with:
-        name: test-outputs
-        path: |
-          ./autograding.log
-      continue-on-error: true  # <-- Ensures this step is not skipped
+        name: test-reports
+        path: target/surefire-reports/
+      continue-on-error: true  # Allow workflow to continue even if upload fails
