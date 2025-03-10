@@ -232,7 +232,7 @@ jobs:
 
     # Upload the logs from the autograding run as an artifact
     - name: Upload Test Outputs as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-outputs
         path: |
