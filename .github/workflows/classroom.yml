@@ -218,9 +218,17 @@ jobs:
     # Run the autograding action (this runs the tests)
     - uses: education/autograding@v1
 
+    # Debug step to list files in the workspace and confirm the log file location
+    - name: List files to verify log file
+      run: |
+        echo "Listing files in the workspace:"
+        ls -alh
+        echo "Checking for autograding.log"
+        find . -name "autograding.log"
+
     # Upload the logs from the autograding run as an artifact
     - name: Upload Test Outputs as Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: test-outputs
         path: |
