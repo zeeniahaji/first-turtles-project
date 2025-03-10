@@ -130,7 +130,7 @@ jobs:
     - name: List files to identify log location
       run: |
         echo "Listing all files in the current directory"
-        ls -R /github/workspace
+        ls -R /home/runner/work/first-turtles-language-zeeniahaji/first-turtles-language-zeeniahaji
 
     # Upload the autograder output as an artifact
     - name: Upload autograder output
