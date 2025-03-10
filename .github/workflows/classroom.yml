@@ -225,7 +225,7 @@ jobs:
       run: mvn -q -B -DfailIfNoTests=false -Dtest=MixedTest verify > mixedTest_output.log; exit ${PIPESTATUS[0]}
 
     - name: Upload Test Outputs as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: test-outputs
         path: |
