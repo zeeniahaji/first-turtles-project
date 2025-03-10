@@ -104,11 +104,21 @@ jobs:
       uses: actions/checkout@v4
 
     # Run the autograder and capture output
+    # - name: Run autograder
+    #   id: run-autograder
+    #   run: |
+    #     education/autograding@v1 > autograder_output.txt 2>&1 || true
+    #     cat autograder_output.txt  # Show output in logs for debugging
+
+    # Run the autograder and capture output
     - name: Run autograder
       id: run-autograder
       run: |
-        education/autograding@v1 > autograder_output.txt 2>&1 || true
-        cat autograder_output.txt  # Show output in logs for debugging
+        education-autograding --config autograding.json 2>&1 | tee autograding-log.txt
+    
+    # Display logs
+    - name: Display autograding logs
+        run: cat autograding-log.txt
 
     # Upload the autograder output as an artifact
     - name: Upload autograder output
