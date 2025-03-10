@@ -126,4 +126,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: autograder-output
-        path: autograder_output.txt
+        path: autograder-output.txt
