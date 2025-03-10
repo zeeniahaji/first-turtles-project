@@ -115,7 +115,7 @@ jobs:
       uses: education/autograding@v1
 
     - name: Save logs
-      run: echo "${{ steps.autograding.outputs }}" > autograder-output.txt
+      run: cat $GITHUB_WORKSPACE/_logs/*.log > autograder-output.txt
     
     # Display logs
     - name: Display autograding logs
