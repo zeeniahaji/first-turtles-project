@@ -118,7 +118,7 @@ jobs:
     
     # Display logs
     - name: Display autograding logs
-        run: cat autograding-log.txt
+      run: cat autograding-log.txt
 
     # Upload the autograder output as an artifact
     - name: Upload autograder output
