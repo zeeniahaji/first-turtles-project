@@ -72,6 +72,51 @@
 #         run: ./scripts/parse_and_link_feedback.sh   # Executes the script
 
 
+# name: GitHub Classroom Workflow
+
+# on: [push]
+
+# permissions:
+#   checks: write
+#   actions: read
+#   contents: read
+
+# jobs:
+#   build:
+#     name: Autograding
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Clean up disk space
+#       run: sudo rm -rf "/opt/ghc" "/usr/local/share/boost" "$AGENT_TOOLSDIRECTORY"
+
+#     - name: Set up OpenJDK 17
+#       uses: actions/setup-java@v3
+#       with:
+#         distribution: 'temurin'
+#         java-version: '17'
+
+#     - name: Set up Maven
+#       uses: stCarolas/setup-maven@v4.5
+#       with:
+#         maven-version: 3.9.5
+
+#     - name: Checkout repository
+#       uses: actions/checkout@v4
+
+#     # Run the autograder and capture output
+#     - name: Run autograder
+#       id: run-autograder
+#       run: |
+#         education/autograding@v1 > autograder_output.txt 2>&1 || true
+#         cat autograder_output.txt  # Show output in logs for debugging
+
+#     # Upload the autograder output as an artifact
+#     - name: Upload autograder output
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: autograder-output
+#         path: autograder_output.txt
+
 name: GitHub Classroom Workflow
 
 on: [push]
@@ -85,42 +130,57 @@ jobs:
   build:
     name: Autograding
     runs-on: ubuntu-latest
-    steps:
-    - name: Clean up disk space
-      run: sudo rm -rf "/opt/ghc" "/usr/local/share/boost" "$AGENT_TOOLSDIRECTORY"
 
+    steps:
+    # Clean up disk space (optional)
+    - name: Clean up disk space
+      run: sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
+
+    # Set up OpenJDK 17
     - name: Set up OpenJDK 17
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
 
+    # Set up Maven
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.5
       with:
         maven-version: 3.9.5
 
+    # Checkout repository
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Run the autograder and capture output
-    # - name: Run autograder
-    #   id: run-autograder
-    #   run: |
-    #     education/autograding@v1 > autograder_output.txt 2>&1 || true
-    #     cat autograder_output.txt  # Show output in logs for debugging
+    # Install jq for parsing JSON
+    - name: Install jq
+      run: sudo apt-get install jq
 
-    - name: Run autograding
-      id: autograding
-      uses: education/autograding@v1
+    # Run tests dynamically from autograding.json
+    - name: Run tests dynamically from autograding.json
+      run: |
+        echo "Running tests from autograding.json..."
 
-    # Display logs
-    - name: Display autograding logs
-      run: cat autograder_output.txt
+        # Read the JSON file and extract the 'run' commands
+        TESTS=$(cat autograding.json | jq -r '.tests[] | .run')
 
-    # Upload the autograder output as an artifact
-    - name: Upload autograder output
+        # Create results directory to save the output
+        mkdir -p results
+
+        # Loop over each test and run it
+        for TEST_CMD in $TESTS; do
+          echo "Running test command: $TEST_CMD"
+          $TEST_CMD >> results/test_results.log
+        done
+
+        # Optionally display the test results (you can remove this if not needed)
+        cat results/test_results.log
+
+    # Upload the test results as an artifact
+    - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
-        name: autograder-output
-        path: autograder_output.txt
+        name: test-results
+        path: results/test_results.log
+
