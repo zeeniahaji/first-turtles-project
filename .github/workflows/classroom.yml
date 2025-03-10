@@ -29,47 +29,47 @@
 
 #PREVIOUS WORKING WORKFLOW 
 
-name: GitHub Classroom Workflow
+# name: GitHub Classroom Workflow
 
-on: [push]
+# on: [push]
 
-permissions:
-  checks: write
-  actions: read
-  contents: read
+# permissions:
+#   checks: write
+#   actions: read
+#   contents: read
 
-jobs:
-  build:
-    name: Autograding
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clean up disk space
-        run: sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
+# jobs:
+#   build:
+#     name: Autograding
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Clean up disk space
+#         run: sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
 
-      - name: Set up OpenJDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: '17'
+#       - name: Set up OpenJDK 17
+#         uses: actions/setup-java@v3
+#         with:
+#           distribution: 'temurin'
+#           java-version: '17'
 
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.5
-        with:
-          maven-version: 3.9.5
+#       - name: Set up Maven
+#         uses: stCarolas/setup-maven@v4.5
+#         with:
+#           maven-version: 3.9.5
 
-      - name: Checkout
-        uses: actions/checkout@v4
+#       - name: Checkout
+#         uses: actions/checkout@v4
 
-      # Step 1: Run the autograder (this will generate feedback)
-      - uses: education/autograding@v1
+#       # Step 1: Run the autograder (this will generate feedback)
+#       - uses: education/autograding@v1
 
-      # Step 2: Make the parse script executable
-      - name: Make the parse script executable
-        run: chmod +x ./scripts/parse_and_link_feedback.sh   # This step ensures the script is executable
+#       # Step 2: Make the parse script executable
+#       - name: Make the parse script executable
+#         run: chmod +x ./scripts/parse_and_link_feedback.sh   # This step ensures the script is executable
 
-      # Step 3: Run the parse and link feedback script
-      - name: Run the parse and link feedback script
-        run: ./scripts/parse_and_link_feedback.sh   # Executes the script
+#       # Step 3: Run the parse and link feedback script
+#       - name: Run the parse and link feedback script
+#         run: ./scripts/parse_and_link_feedback.sh   # Executes the script
 
 
 # name: GitHub Classroom Workflow
