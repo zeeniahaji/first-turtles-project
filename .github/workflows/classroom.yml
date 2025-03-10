@@ -229,10 +229,10 @@ jobs:
         echo "Checking for Maven test logs..."
         find . -type f -name "*.txt" -o -name "*.log" -o -name "*.xml"
 
-    # Upload Maven test reports (usually stored in target/surefire-reports/)
     - name: Upload Test Reports
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: test-reports
-        path: target/surefire-reports/
-      continue-on-error: true  # Allow workflow to continue even if upload fails
+        path: uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/
+        continue-on-error: true  # Ensure workflow continues even if upload fails
+
