@@ -200,39 +200,28 @@ jobs:
     steps:
     - name: Clean up disk space
       run: sudo rm -rf "/opt/ghc" && sudo rm -rf "/usr/local/share/boost" && sudo rm -rf $AGENT_TOOLSDIRECTORY
-    
+
     - name: Set up OpenJDK 17
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '17'
-    
+
     - name: Set up Maven
       uses: stCarolas/setup-maven@v4.5
       with:
         maven-version: 3.9.5
-    
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Run MoveTest
-      run: mvn -q -B -DfailIfNoTests=false -Dtest=MoveTest verify > moveTest_output.log; exit ${PIPESTATUS[0]}
-    
-    - name: Run TurnTest
-      run: mvn -q -B -DfailIfNoTests=false -Dtest=TurnTest verify > turnTest_output.log; exit ${PIPESTATUS[0]}
-    
-    - name: Run MixedTest
-      run: mvn -q -B -DfailIfNoTests=false -Dtest=MixedTest verify > mixedTest_output.log; exit ${PIPESTATUS[0]}
 
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Run the autograding action (this runs the tests)
+    - uses: education/autograding@v1
+
+    # Upload the logs from the autograding run as an artifact
     - name: Upload Test Outputs as Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: test-outputs
         path: |
-          moveTest_output.log
-          turnTest_output.log
-          mixedTest_output.log
-
-    - uses: education/autograding@v1
-
-
+          ./autograding.log
