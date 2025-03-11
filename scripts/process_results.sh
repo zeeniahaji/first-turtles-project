@@ -262,15 +262,111 @@
 # echo "JSON test results saved to $OUTPUT_JSON"
 
 
+# #!/bin/bash
+
+# # Define JSON output file
+# OUTPUT_JSON="test_results.json"
+
+# # Initialize JSON structure
+# echo '{"tests": [' > $OUTPUT_JSON
+
+# FIRST=true
+
+# # Loop through all test report text files
+# for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -name "*.txt"); do
+#     if [ -f "$file" ]; then
+#         if [ "$FIRST" = true ]; then
+#             FIRST=false
+#         else
+#             echo "," >> $OUTPUT_JSON
+#         fi
+
+#         # Extract test suite name
+#         TEST_NAME=$(grep -oP '(?<=Test set: ).*' "$file")
+
+#         # Extract test summary
+#         SUMMARY=$(grep -oP 'Tests run: \d+, Failures: \d+, Errors: \d+' "$file")
+
+#         # Extract individual test counts
+#         TOTAL_TESTS=$(echo "$SUMMARY" | awk -F'[:,]' '{print $2}' | xargs)
+#         FAILURES=$(echo "$SUMMARY" | awk -F'[:,]' '{print $4}' | xargs)
+#         ERRORS=$(echo "$SUMMARY" | awk -F'[:,]' '{print $6}' | xargs)
+#         SKIPPED=$(echo "$SUMMARY" | awk -F'[:,]' '{print $8}' | xargs)
+
+#         # Ensure skipped tests are set to a valid number (default to 0 if empty)
+#         if [ -z "$SKIPPED" ]; then
+#             SKIPPED=0
+#         fi
+
+#         # Start JSON object for this test suite
+#         echo "  {" >> $OUTPUT_JSON
+#         echo "    \"name\": \"$TEST_NAME\"," >> $OUTPUT_JSON
+#         echo "    \"total\": $TOTAL_TESTS," >> $OUTPUT_JSON
+#         echo "    \"failures\": $FAILURES," >> $OUTPUT_JSON
+#         echo "    \"errors\": $ERRORS," >> $OUTPUT_JSON
+#         echo "    \"skipped\": $SKIPPED," >> $OUTPUT_JSON
+#         echo '    "details": [' >> $OUTPUT_JSON
+
+#         FIRST_DETAIL=true
+
+#         # Extract failed test cases and errors
+#         while IFS= read -r line; do
+#             if [[ "$line" == *".xt:"* ]]; then
+#                 if [ "$FIRST_DETAIL" = true ]; then
+#                     FIRST_DETAIL=false
+#                 else
+#                     echo "," >> $OUTPUT_JSON
+#                 fi
+
+#                 TEST_CASE=$(echo "$line" | awk '{print $1}')
+                
+#                 # Extract full error message (ensures multi-line errors are captured)
+#                 ERROR_MESSAGE=$(sed -n "/$TEST_CASE/,/^$/"p "$file" | sed 's/ERROR://g' | tr '\n' ' ' | sed 's/  / /g' | xargs)
+
+#                 # Debugging output (remove this after confirming it works)
+#                 echo "Extracted Error for $TEST_CASE: $ERROR_MESSAGE"
+
+#                 echo "      {" >> $OUTPUT_JSON
+#                 echo "        \"test\": \"$TEST_CASE\"," >> $OUTPUT_JSON
+#                 echo "        \"status\": \"failed\"," >> $OUTPUT_JSON
+#                 echo "        \"error\": \"$ERROR_MESSAGE\"" >> $OUTPUT_JSON
+#                 echo "      }" >> $OUTPUT_JSON
+#             fi
+#         done < <(grep -A3 "FAILURE!" "$file")
+
+#         # Close details array
+#         echo "    ]" >> $OUTPUT_JSON
+#         echo "  }" >> $OUTPUT_JSON
+#     fi
+# done
+
+# # Close JSON structure
+# echo "]}" >> $OUTPUT_JSON
+
+# echo "JSON test results saved to $OUTPUT_JSON"
+
+
+
+
 #!/bin/bash
 
 # Define JSON output file
 OUTPUT_JSON="test_results.json"
+ACTIVITY_JSON="activity.json"
+FEEDBACK_MAPPING_JSON="feedback-mapping.json"
+FILE_TO_PANEL_JSON="file_to_panel.json"
+FINAL_OUTPUT_JSON="final_test_results.json"
 
 # Initialize JSON structure
 echo '{"tests": [' > $OUTPUT_JSON
 
 FIRST=true
+
+# Extract file-to-panel mapping from activity.json
+echo "🔍 Extracting file-to-panel mapping from activity.json..."
+jq -r '[.activities[].panels[] | select(.file) | { (.file): .id }] | add' $ACTIVITY_JSON > $FILE_TO_PANEL_JSON
+echo "✅ File-to-panel mapping saved to $FILE_TO_PANEL_JSON"
+cat $FILE_TO_PANEL_JSON  # Debugging: Show extracted panel mappings
 
 # Loop through all test report text files
 for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -name "*.txt"); do
@@ -326,10 +422,15 @@ for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -na
                 # Debugging output (remove this after confirming it works)
                 echo "Extracted Error for $TEST_CASE: $ERROR_MESSAGE"
 
+                # Link panel information to the test case using the file-to-panel mapping
+                LINKED_PANEL=$(jq -r --arg file "$file" '.[$file] // "unknown"' $FILE_TO_PANEL_JSON)
+
+                # Write the test case with linked panel to the output JSON
                 echo "      {" >> $OUTPUT_JSON
                 echo "        \"test\": \"$TEST_CASE\"," >> $OUTPUT_JSON
                 echo "        \"status\": \"failed\"," >> $OUTPUT_JSON
-                echo "        \"error\": \"$ERROR_MESSAGE\"" >> $OUTPUT_JSON
+                echo "        \"error\": \"$ERROR_MESSAGE\"," >> $OUTPUT_JSON
+                echo "        \"linked_panel\": \"$LINKED_PANEL\"" >> $OUTPUT_JSON
                 echo "      }" >> $OUTPUT_JSON
             fi
         done < <(grep -A3 "FAILURE!" "$file")
@@ -343,8 +444,11 @@ done
 # Close JSON structure
 echo "]}" >> $OUTPUT_JSON
 
-echo "JSON test results saved to $OUTPUT_JSON"
+echo "✅ JSON test results saved to $OUTPUT_JSON"
 
+# Merge feedback mapping with panel information
+echo "🔍 Merging feedback with linked panels..."
+jq -s '.[0] * { "feedback": .[1] }' $FEEDBACK_MAPPING_JSON $FILE_TO_PANEL_JSON > $FINAL_OUTPUT_JSON
 
-
-
+echo "✅ Final linked feedback saved to $FINAL_OUTPUT_JSON"
+cat $FINAL_OUTPUT_JSON  # Debugging: Show final merged output
