@@ -347,26 +347,29 @@
 
 
 
-
 #!/bin/bash
 
 # Define JSON output file
 OUTPUT_JSON="test_results.json"
 ACTIVITY_JSON="activity.json"
-FEEDBACK_MAPPING_JSON="feedback-mapping.json"
-FILE_TO_PANEL_JSON="file_to_panel.json"
-FINAL_OUTPUT_JSON="final_test_results.json"
+FEEDBACK_MAPPING="feedback-mapping.json"
 
 # Initialize JSON structure
 echo '{"tests": [' > $OUTPUT_JSON
 
 FIRST=true
 
-# Extract file-to-panel mapping from activity.json
-echo "🔍 Extracting file-to-panel mapping from activity.json..."
-jq -r '[.activities[].panels[] | select(.file) | { (.file): .id }] | add' $ACTIVITY_JSON > $FILE_TO_PANEL_JSON
-echo "✅ File-to-panel mapping saved to $FILE_TO_PANEL_JSON"
-cat $FILE_TO_PANEL_JSON  # Debugging: Show extracted panel mappings
+# Read the feedback-mapping.json to extract file-to-activity mapping
+declare -A file_to_activity
+while read -r file activity; do
+  file_to_activity["$file"]="$activity"
+done < <(jq -r '.[] | "\(.file) \(.activity)"' $FEEDBACK_MAPPING)
+
+# Read the activity.json to extract file-to-panel mapping
+declare -A activity_to_panel
+while read -r activity panel; do
+  activity_to_panel["$activity"]="$panel"
+done < <(jq -r '.activities[] | "\(.id) \(.panels[0].id)"' $ACTIVITY_JSON)
 
 # Loop through all test report text files
 for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -name "*.txt"); do
@@ -419,24 +422,32 @@ for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -na
                 # Extract full error message (ensures multi-line errors are captured)
                 ERROR_MESSAGE=$(sed -n "/$TEST_CASE/,/^$/"p "$file" | sed 's/ERROR://g' | tr '\n' ' ' | sed 's/  / /g' | xargs)
 
-                # Debugging output (remove this after confirming it works)
-                echo "Extracted Error for $TEST_CASE: $ERROR_MESSAGE"
-
-                # Link panel information to the test case using the file-to-panel mapping
-                LINKED_PANEL=$(jq -r --arg file "$file" '.[$file] // "unknown"' $FILE_TO_PANEL_JSON)
-
-                # Write the test case with linked panel to the output JSON
                 echo "      {" >> $OUTPUT_JSON
                 echo "        \"test\": \"$TEST_CASE\"," >> $OUTPUT_JSON
                 echo "        \"status\": \"failed\"," >> $OUTPUT_JSON
-                echo "        \"error\": \"$ERROR_MESSAGE\"," >> $OUTPUT_JSON
-                echo "        \"linked_panel\": \"$LINKED_PANEL\"" >> $OUTPUT_JSON
+                echo "        \"error\": \"$ERROR_MESSAGE\"" >> $OUTPUT_JSON
                 echo "      }" >> $OUTPUT_JSON
             fi
         done < <(grep -A3 "FAILURE!" "$file")
 
+        # Get the activity associated with the file (from feedback-mapping)
+        TEST_ACTIVITY=""
+        for file_key in "${!file_to_activity[@]}"; do
+          if [[ "$file" == *"$file_key"* ]]; then
+            TEST_ACTIVITY="${file_to_activity["$file_key"]}"
+            break
+          fi
+        done
+
+        # Get the panel associated with the activity (from activity-to-panel mapping)
+        LINKED_PANEL=""
+        if [ -n "$TEST_ACTIVITY" ]; then
+            LINKED_PANEL="${activity_to_panel["$TEST_ACTIVITY"]}"
+        fi
+
         # Close details array
-        echo "    ]" >> $OUTPUT_JSON
+        echo "    ]," >> $OUTPUT_JSON
+        echo "    \"linked-panel\": \"$LINKED_PANEL\"" >> $OUTPUT_JSON
         echo "  }" >> $OUTPUT_JSON
     fi
 done
@@ -444,11 +455,5 @@ done
 # Close JSON structure
 echo "]}" >> $OUTPUT_JSON
 
-echo "✅ JSON test results saved to $OUTPUT_JSON"
+echo "JSON test results saved to $OUTPUT_JSON"
 
-# Merge feedback mapping with panel information
-echo "🔍 Merging feedback with linked panels..."
-jq -s '.[0] * { "feedback": .[1] }' $FEEDBACK_MAPPING_JSON $FILE_TO_PANEL_JSON > $FINAL_OUTPUT_JSON
-
-echo "✅ Final linked feedback saved to $FINAL_OUTPUT_JSON"
-cat $FINAL_OUTPUT_JSON  # Debugging: Show final merged output

@@ -289,19 +289,13 @@ jobs:
         chmod +x ./scripts/process_results.sh
         ./scripts/process_results.sh
 
-    # # Upload JSON Test Results as an Artifact
-    # - name: Upload JSON Test Results
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: json-test-results
-    #     path: test_results.json
-    #     continue-on-error: true  # Ensure workflow continues even if upload fails
-
-     # Upload JSON Test Results as an Artifact
+    # Upload JSON Test Results as an Artifact
     - name: Upload JSON Test Results
       uses: actions/upload-artifact@v4
       with:
-        name: final-test-results
-        path: final_test_results.json
+        name: json-test-results
+        path: test_results.json
         continue-on-error: true  # Ensure workflow continues even if upload fails
+
+     
 
