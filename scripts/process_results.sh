@@ -614,7 +614,7 @@ for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -na
 
 done
 
-# Close JSON structure
+# Close JSON structures
 echo "]}" >> $OUTPUT_JSON
 
 echo "JSON test results saved to $OUTPUT_JSON"
