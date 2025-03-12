@@ -466,20 +466,47 @@ echo '{"tests": [' > $OUTPUT_JSON
 FIRST=true
 
 # Function to get the linked panel based on the file and activity
+# get_linked_panel() {
+#     FILE="$1"
+#     ACTIVITY="$2"
+    
+#     # Extract the panel linked to the file based on the activity
+#     PANEL_ID=$(jq -r --arg activity "$ACTIVITY" --arg file "$FILE" \
+#       '.activities[] | select(.id == $activity) | .panels[] | select(.file == $file) | .id' "$ACTIVITY_JSON")
+    
+#     if [ "$PANEL_ID" != "null" ]; then
+#         echo "$PANEL_ID"
+#     else
+#         echo "unknown"
+#     fi
+# }
 get_linked_panel() {
     FILE="$1"
     ACTIVITY="$2"
     
+    # Print the function parameters for debugging
+    echo "Debug: Entered get_linked_panel()"
+    echo "Debug: File = $FILE"
+    echo "Debug: Activity = $ACTIVITY"
+    
     # Extract the panel linked to the file based on the activity
+    echo "Debug: Extracting panel from activity.json using jq"
+    
     PANEL_ID=$(jq -r --arg activity "$ACTIVITY" --arg file "$FILE" \
       '.activities[] | select(.id == $activity) | .panels[] | select(.file == $file) | .id' "$ACTIVITY_JSON")
     
+    echo "Debug: jq returned PANEL_ID = $PANEL_ID"
+    
     if [ "$PANEL_ID" != "null" ]; then
+        echo "Debug: Panel found: $PANEL_ID"
         echo "$PANEL_ID"
     else
+        echo "Debug: Panel not found, returning 'unknown'"
         echo "unknown"
     fi
 }
+
+
 
 # Loop through all test report text files
 for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -name "*.txt"); do
@@ -562,6 +589,11 @@ for file in $(find uk.ac.kcl.inf.mdd1.turtles.tests/target/surefire-reports/ -na
                     # Get the activity from feedback-mapping.json
                     FILE=$(jq -r --arg test_case "$TEST_CASE" '.[] | select(.file == $test_case) | .file' "$FEEDBACK_JSON")
                     ACTIVITY=$(jq -r --arg test_case "$TEST_CASE" '.[] | select(.file == $test_case) | .activity' "$FEEDBACK_JSON")
+
+                    echo "printing out file -----------------------------------------------------------------"
+                    echo $FILE 
+                    echo "printing out activity -----------------------------------------------------------"
+                    echo $ACTIVITY
                     
                     # Get the linked panel for this file
                     LINKED_PANEL=$(get_linked_panel "$FILE" "$ACTIVITY")
