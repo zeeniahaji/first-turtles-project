@@ -14,7 +14,14 @@
                     "ref": "xtext-grammar",
                     "file": "uk.ac.kcl.inf.mdd1.turtles/src/uk/ac/kcl/inf/mdd1/Turtles.xtext",
                     "editorPanel": "panel-turtles",
-                    "editorActivity": "turtles-editor"
+                    "editorActivity": "turtles-editor",
+                    "buttons": [
+                        {
+                            "id": "feedback-button",
+                            "name" : "Get Feedback",
+                            "action" : "show-feedback-popup"
+                        }
+                    ]
                 },
                 {
                     "id": "panel-console",
@@ -41,6 +48,14 @@
                     },
 
                     "output": "panel-console"
+                },
+                {
+                    "source": "panel-xtext",
+                    "sourceButton": "feedback-button",
+                    "parameters": {
+                        "feedback": "panel-xtext"
+                    },
+                    "action": "show-feedback-popup"
                 }
             ]
         },
