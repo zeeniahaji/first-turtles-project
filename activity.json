@@ -18,8 +18,8 @@
                     "buttons": [
                         {
                             "id": "feedback-button",
-                            "name" : "Get Feedback",
-                            "action" : "show-feedback-popup"
+                            "icon" : "feedback",
+                            "hint" : "Toggle Feedback Panel"
                         }
                     ]
                 },
@@ -48,14 +48,6 @@
                     },
 
                     "output": "panel-console"
-                },
-                {
-                    "source": "panel-xtext",
-                    "sourceButton": "feedback-button",
-                    "parameters": {
-                        "feedback": "panel-xtext"
-                    },
-                    "action": "show-feedback-popup"
                 }
             ]
         },
