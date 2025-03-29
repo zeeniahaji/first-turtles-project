@@ -19,7 +19,8 @@
                         {
                             "id": "feedback-view-button",
                             "icon" : "feedback",
-                            "hint" : "View Feedback"
+                            "hint" : "View Feedback",
+                            "action": "showFeedbackModal"
                         }
                     ]
                 },
