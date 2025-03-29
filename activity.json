@@ -17,9 +17,9 @@
                     "editorActivity": "turtles-editor",
                     "buttons": [
                         {
-                            "id": "feedback-button",
+                            "id": "feedback-view-button",
                             "icon" : "feedback",
-                            "hint" : "Toggle Feedback Panel"
+                            "hint" : "View Feedback"
                         }
                     ]
                 },
