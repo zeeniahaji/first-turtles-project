@@ -5,7 +5,7 @@
             "title": "Create the Xtext grammar",
             "icon": "xtext",
             
-            "tools": [ "https://ep.mde-network.org/tools/xtext/xtext_tool.json" ],
+            "tools": [ "http://127.0.0.1:8080/tools/xtext/xtext_tool.json" ],
 
             "panels": [
                 {
@@ -60,9 +60,9 @@
 
             "tools": [
                 "{{ID-panel-turtles}}/editor_tool.json", 
-                "https://ep.mde-network.org/tools/emf/emf_tool.json",
-                "https://ep.mde-network.org/tools/emfatic/emfatic_tool.json",
-                "https://ep.mde-network.org/tools/epsilon/tools"
+                "http://127.0.0.1:8080/tools/emf/emf_tool.json",
+                "http://127.0.0.1:8080/tools/emfatic/emfatic_tool.json",
+                "http://127.0.0.1:8080/tools/epsilon/tools"
             ],
 
             "panels": [
