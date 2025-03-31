@@ -5,7 +5,7 @@
             "title": "Create the Xtext grammar",
             "icon": "xtext",
             
-            "tools": [ "http://127.0.0.1:10000/tools/xtext/xtext_tool.json" ],
+            "tools": [ "http://127.0.0.1:8074/tools/xtext/xtext_tool.json" ],
 
             "panels": [
                 {
@@ -60,9 +60,9 @@
 
             "tools": [
                 "{{ID-panel-turtles}}/editor_tool.json", 
-                "http://127.0.0.1:10000/tools/emf/emf_tool.json",
-                "http://127.0.0.1:10000/tools/emfatic/emfatic_tool.json",
-                "http://127.0.0.1:10000/tools/epsilon/tools"
+                "http://127.0.0.1:8073/tools/emf/emf_tool.json",
+                "http://127.0.0.1:8071/tools/emfatic/emfatic_tool.json",
+                "http://127.0.0.1:8070/tools/epsilon/tools"
             ],
 
             "panels": [
