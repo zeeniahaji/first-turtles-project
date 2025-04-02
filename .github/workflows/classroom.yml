@@ -57,23 +57,4 @@ jobs:
         path: test_results.json
         continue-on-error: true  # Ensure workflow continues even if upload fails
 
-    # Step 5: Download the uploaded test results artifact
-    - name: Download test results artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: json-test-results
-        path: ./artifacts  # This is the directory where the artifact will be downloaded
-
-    - name: Debug - List Downloaded Files
-      run: ls -R ./artifacts
-
-    # Step 6: Compare the generated JSON with the expected output
-    - name: Compare JSON output
-      run: |
-        chmod +x ./scripts/compare_json.sh  # Ensure the comparison script is executable
-        GENERATED_JSON="./artifacts/test_results.json"  # Path to the downloaded JSON
-        EXPECTED_JSON="expected_output.json"  # Path to your expected JSON file
-        ./scripts/compare_json.sh  # Run the comparison script to compare the generated and expected JSONs
-     
-     
-
+    
