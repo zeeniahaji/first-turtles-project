@@ -61,7 +61,7 @@ jobs:
     - name: Download test results artifact
       uses: actions/download-artifact@v4
       with:
-        name: test-results
+        name: json-test-results
         path: ./artifacts  # This is the directory where the artifact will be downloaded
 
     # Step 6: Compare the generated JSON with the expected output
