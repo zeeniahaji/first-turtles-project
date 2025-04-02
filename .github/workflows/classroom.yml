@@ -64,6 +64,9 @@ jobs:
         name: json-test-results
         path: ./artifacts  # This is the directory where the artifact will be downloaded
 
+    - name: Debug - List Downloaded Files
+      run: ls -R ./artifacts
+
     # Step 6: Compare the generated JSON with the expected output
     - name: Compare JSON output
       run: |
