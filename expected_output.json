@@ -1,57 +1,59 @@
-{
-    "tests": [
+{"tests": [
+  {
+    "name": "uk.ac.kcl.inf.mdd1.tests.move.MoveTest",
+    "total": 2,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "linked-panel": "panel-xtext",
+    "details": [
       {
-        "name": "uk.ac.kcl.inf.mdd1.tests.move.MoveTest",
-        "total": 2,
-        "failures": 2,
-        "errors": 0,
-        "skipped": 0,
-        "linked-panel": "panel-xtext",
-        "details": [
-          {
-            "test": "MoveTest.forward.turtles.xt:",
-            "status": "failed",
-            "error": "MoveTest.forward.turtles.xt: src/uk/ac/kcl/inf/mdd1/tests/move -- Time elapsed: 0.415 s <<< FAILURE! org.junit.ComparisonFailure: required (...)+ loop did not match anything at input forward ( line : 2 column : 1) expected:<...SETUP */ forward(10)[]> but was:<...SETUP */ forward(10)[ 1111111 1: error - required (...)+ loop did not match anything at input forward]>"
-          },
-          {
-            "test": "MoveTest.backward.turtles.xt:",
-            "status": "failed",
-            "error": "MoveTest.backward.turtles.xt: src/uk/ac/kcl/inf/mdd1/tests/move -- Time elapsed: 0.001 s <<< FAILURE! org.junit.ComparisonFailure: required (...)+ loop did not match anything at input backward ( line : 2 column : 1) expected:<...SETUP */ backward(1)[]> but was:<...SETUP */ backward(1)[ 11111111 1: error - required (...)+ loop did not match anything at input backward]>"
-          }
-        ]
-      },
+        "test": "MoveTest.forward.turtles.xt:",
+        "status": "failed",
+        "error": "MoveTest.forward.turtles.xt: src/uk/ac/kcl/inf/mdd1/tests/move -- Time elapsed: 0.415 s <<< FAILURE! org.junit.ComparisonFailure: required (...)+ loop did not match anything at input forward ( line : 2 column : 1) expected:<...SETUP */ forward(10)[]> but was:<...SETUP */ forward(10)[ 1111111 1: error - required (...)+ loop did not match anything at input forward]>"
+      }
+,
       {
-        "name": "uk.ac.kcl.inf.mdd1.tests.turn.TurnTest",
-        "total": 2,
-        "failures": 0,
-        "errors": 0,
-        "skipped": 0,
-        "linked-panel": "panel-xtext",
-        "details": [
-          {
-            "test": "TurnTest.turnRight.turtles.xt:",
-            "status": "passed"
-          },
-          {
-            "test": "TurnTest.turnLeft.turtles.xt:",
-            "status": "passed"
-          }
-        ]
-      },
-      {
-        "name": "uk.ac.kcl.inf.mdd1.tests.mixed.MixedTest",
-        "total": 1,
-        "failures": 1,
-        "errors": 0,
-        "skipped": 0,
-        "linked-panel": "panel-xtext",
-        "details": [
-          {
-            "test": "MixedTest.mixed.turtles.xt:",
-            "status": "failed",
-            "error": "MixedTest.mixed.turtles.xt: src/uk/ac/kcl/inf/mdd1/tests/mixed -- Time elapsed: 0.002 s <<< FAILURE! org.junit.ComparisonFailure: missing EOF at forward (platform:/resource/default_project/mixed.turtles.xt line : 3 column : 1) expected:<...degrees forward(10) []forward(10) turn lef...> but was:<...degrees forward(10) [1111111 1: error - missing EOF at forward ]forward(10) turn lef...>"
-          }
-        ]
+        "test": "MoveTest.backward.turtles.xt:",
+        "status": "failed",
+        "error": "MoveTest.backward.turtles.xt: src/uk/ac/kcl/inf/mdd1/tests/move -- Time elapsed: 0.001 s <<< FAILURE! org.junit.ComparisonFailure: required (...)+ loop did not match anything at input backward ( line : 2 column : 1) expected:<...SETUP */ backward(1)[]> but was:<...SETUP */ backward(1)[ 11111111 1: error - required (...)+ loop did not match anything at input backward]>"
       }
     ]
-}
+  }
+,
+  {
+    "name": "uk.ac.kcl.inf.mdd1.tests.turn.TurnTest",
+    "total": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "linked-panel": "panel-xtext",
+    "details": [
+      {
+        "test": "TurnTest.turnRight.turtles.xt:",
+        "status": "passed"
+      }
+,
+      {
+        "test": "TurnTest.turnLeft.turtles.xt:",
+        "status": "passed"
+      }
+    ]
+  }
+,
+  {
+    "name": "uk.ac.kcl.inf.mdd1.tests.mixed.MixedTest",
+    "total": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "linked-panel": "panel-xtext",
+    "details": [
+      {
+        "test": "MixedTest.mixed.turtles.xt:",
+        "status": "failed",
+        "error": "MixedTest.mixed.turtles.xt: src/uk/ac/kcl/inf/mdd1/tests/mixed -- Time elapsed: 0.002 s <<< FAILURE! org.junit.ComparisonFailure: missing EOF at forward (platform:/resource/default_project/mixed.turtles.xt line : 3 column : 1) expected:<...degrees forward(10) []forward(10) turn lef...> but was:<...degrees forward(10) [1111111 1: error - missing EOF at forward ]forward(10) turn lef...>"
+      }
+    ]
+  }
+]}
