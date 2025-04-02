@@ -68,7 +68,7 @@ jobs:
     - name: Compare JSON output
       run: |
         chmod +x ./scripts/compare_json.sh  # Ensure the comparison script is executable
-        GENERATED_JSON="./artifacts/json-test-results.json"  # Path to the downloaded JSON
+        GENERATED_JSON="./artifacts/test_results.json"  # Path to the downloaded JSON
         EXPECTED_JSON="expected_output.json"  # Path to your expected JSON file
         ./scripts/compare_json.sh  # Run the comparison script to compare the generated and expected JSONs
      
