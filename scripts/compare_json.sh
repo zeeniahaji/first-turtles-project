@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define file paths
-GENERATED_JSON="./artifacts/json-test-results.json"  # Path to the downloaded JSON from the artifact
+GENERATED_JSON="./artifacts/test-results.json"  # Path to the downloaded JSON from the artifact
 EXPECTED_JSON="expected_output.json"  # Path to your expected output JSON file
 
 # Use jq to compare the JSON files by sorting the keys
